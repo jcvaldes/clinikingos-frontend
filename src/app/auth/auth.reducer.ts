@@ -1,0 +1,26 @@
+import * as fromAuth from './auth.actions';
+import { User } from '../pages/admin/users/user.model';
+
+export interface AuthState {
+  user: User;
+}
+const initState: AuthState = {
+  user: null
+};
+export function authReducer(
+  state = initState,
+  action: fromAuth.Acciones
+): AuthState {
+  switch (action.type) {
+    case fromAuth.SET_USER:
+      return {
+        user: { ...action.user }
+      };
+    case fromAuth.UNSET_USER:
+      return {
+        user: null
+      };
+    default:
+      return state;
+  }
+}

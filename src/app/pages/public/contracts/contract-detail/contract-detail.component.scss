@@ -1,0 +1,22 @@
+.mat-form-field {
+  width: 100%;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 400px !important;
+  max-height: 400px !important;
+}
+
+.card {
+  max-height: 700px;;
+}
+
+.table { 
+	margin-top: 30px; 
+}
+.removePdf {
+  left: 131px;
+}
+img {
+  padding: 0!important;
+}

@@ -1,0 +1,90 @@
+<mat-toolbar color="primary">
+  <span>{{form.controls['id'].value?"Modificar Contrato":"Nuevo Contrato"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button tabIndex="-1" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<form [formGroup]="form" class="normal-form">
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-6">
+
+      <input type="hidden" formControlName="id">
+      <mat-form-field>
+        <input formControlName="title" matInput placeholder="Título" required autocomplete="off">
+        <mat-error>El título es requerido..</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="!hasPdf; then showFileUpload else showPdfLink">
+
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row">
+    <div class="col-12 col-sm-12 col-md-12">
+      <div class="ck-editor__editable ck-editor__editable_inline">
+        <ckeditor [editor]="editor" [data]="editorData" (ready)="onReady($event)" formControlName="description" debounce="1000"></ckeditor>
+      </div>
+    </div>
+  </div> -->
+  <div class="row m-t-40">
+    <div class="col-12">
+      <div class="button-row text-right">
+        <button mat-raised-button color="primary" (click)="onSubmit()" type="submit" [disabled]="form.invalid">
+            <mat-icon>save</mat-icon>
+            Guardar
+          </button>
+        <button mat-button color="warn" (click)="onClose()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #showFileUpload>
+  <div class="row">
+    <div class="col-4">
+      <div appNgDropFiles [files]="files" (mouseSobre)="estaSobreElemento = $event" [ngClass]="{'file-over': estaSobreElemento }" class="well drop-zone file-over">
+        <h4>Drag & Drop (solo pdf)</h4>
+        <img src="assets/drop-images.png">
+      </div>
+    </div>
+    <div class="col-8">
+      <button (click)="limpiarArchivos()" class="btn btn-danger">Limpiar</button>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>Nombre archivo</th>
+            <th>Tamaño</th>
+            <th>Progreso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of files">
+            <td [ngClass]="{ 'text-green': file.progreso >= 100 }">{{ file.nombreArchivo }}</td>
+            <td>{{ file.archivo.size / 1024 / 1024 | number: '.2-2'}} MB</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': file.progreso + '%' }" style="height: 19px;"></div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #showPdfLink>
+  <div class="d-flex">
+    <button mat-mini-fab tabIndex="-1" class="removePdf" (click)="onRemoveFile()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <a target="_blank" [href]="url">
+      <img src="assets/images/pdf.png" class="rounded pointer p-10" width="147" height="auto" />
+    </a>
+  </div>
+</ng-template>
