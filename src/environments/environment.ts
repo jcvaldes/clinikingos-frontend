@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000',
-  backendUrl: 'https://backend.tudoclegal.com',
+  backendUrl: 'https://backend.clinikingos.com',
   firebase: {
     apiKey: 'AIzaSyBjEv8EufdouldUQqLYgW5WNseiB8a76wQ',
     authDomain: 'tudocdigital.firebaseapp.com',
