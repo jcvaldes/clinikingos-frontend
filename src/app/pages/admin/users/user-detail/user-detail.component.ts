@@ -2,13 +2,11 @@ import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import * as _ from 'lodash';
-import { HttpService, UserService } from '../../../../services/service.index';
+import { UserService } from '../../../../services/service.index';
 import { NotificationService } from '../../../../shared/notification.service';
-import urlJoin from 'url-join';
 import { Subscription } from 'rxjs';
 import { User } from '../user.model';
 
-declare var $: any;
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -53,7 +51,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       if (!this.form.get('id').value) {
         this._userService.add<User>(this.form.value).subscribe(
-          (resp: any) => {
+          () => {
             this.onClose(true);
             this.notificationService.success(':: El usuario ha sido creado');
           },
@@ -63,7 +61,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
         );
       } else {
         this._userService.update<User>(this.form.value).subscribe(
-          (user) => {
+          () => {
             this.onClose(true);
             this.notificationService.success(
               ':: El usuario ha sido actualizado',

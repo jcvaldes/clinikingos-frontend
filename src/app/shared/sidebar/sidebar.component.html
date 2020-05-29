@@ -11,8 +11,6 @@
           <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img [src]="user.img | image" alt="user" /><span class="hide-menu">{{ user.fullname }} {{ user.lastname }} </span></a>
           <ul aria-expanded="false" class="collapse">
             <li><a routerLinkActive="active" routerLink="/profile">Perfil</a></li>
-            <li><a href="javascript:void()">My Balance</a></li>
-            <li><a href="javascript:void()">Inbox</a></li>
             <li><a routerLinkActive="active" routerLink="/account-settings">Configuración</a></li>
             <li><a (click)="_userService.logout()" class="pointer">Cerrar Sesión</a></li>
           </ul>

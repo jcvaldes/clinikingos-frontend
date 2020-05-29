@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import urljoin from 'url-join';
 import { environment } from '../../../environments/environment';
 import { User } from '../../pages/admin/users/user.model';
 
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 // import 'rxjs/add/observable/throw';
 import { map, catchError } from 'rxjs/operators';
 // import 'rxjs/add/operator/catch';
@@ -20,7 +20,6 @@ import {
   ActivarLoadingAction,
   DesactivarLoadingAction
 } from '../../shared/ui.actions';
-
 @Injectable()
 export class UserService extends HttpService {
   public urlRedirect = '';
@@ -38,7 +37,6 @@ export class UserService extends HttpService {
   ) {
     super(http);
     this.loginUrl = urljoin(environment.apiUrl, '/api/auth');
-    this.loginGoogleUrl = urljoin(environment.apiUrl, 'api/auth/google');
     this.userUrl = urljoin(environment.apiUrl, '/api/user');
     this.url = this.userUrl;
     this.loadStorage();
@@ -107,19 +105,6 @@ export class UserService extends HttpService {
     localStorage.removeItem('menu');
     this.router.navigate(['/login']);
   }
-  loginGoogle(token: string) {
-    return this.http.post(this.loginGoogleUrl, { token: token }).pipe(
-      map((response: any) => {
-        this.saveStorage(
-          response.id,
-          response.token,
-          response.user,
-          response.menu
-        );
-        return true;
-      })
-    );
-  }
   login(user: User, remember: boolean = false) {
     this.store.dispatch(new ActivarLoadingAction());
     if (remember) {
@@ -166,15 +151,12 @@ export class UserService extends HttpService {
       );
   }
   updateUser(user: User) {
-    debugger
     let url = this.userUrl + '/' + user.id;
     url += '?token=' + this.token;
-
     return this.http
       .put(url, user)
       .pipe(
         map((response: any) => {
-	debugger
           if (user.id === this.user.id) {
             let userDb: User = response.user;
             this.saveStorage(userDb.id, this.token, userDb, this.menu);

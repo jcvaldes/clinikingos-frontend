@@ -5,16 +5,12 @@ import { MatSort } from '@angular/material/sort';
 import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { TableDataSource } from '../../../../components/datasource.component';
-import { HttpService, UserService } from '../../../../services/service.index';
+import { UserService } from '../../../../services/service.index';
 import { NotificationService } from '../../../../shared/notification.service';
 import Swal from 'sweetalert2';
 import { UserDetailComponent } from '../user-detail/user-detail.component';
 import { User } from '../user.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataSource } from '@angular/cdk/collections';
-import { environment } from '../../../../../../../home/src/environments/environment';
-
-import urljoin from 'url-join';
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -58,7 +54,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
     );
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadUserPage('asc');
+        this.loadUserPage();
       }
     });
   }
@@ -67,8 +63,8 @@ export class UserListComponent implements OnInit, AfterViewInit {
       UserDetailComponent,
       this.dialogConfig(row),
     );
-    dialogRef.afterClosed().subscribe((result) => {
-      this.loadUserPage(this.sort.direction);
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadUserPage();
     });
   }
   onDelete(id) {
@@ -82,7 +78,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
     }).then((result) => {
       if (result.value) {
         this._userService.delete<User>(id).subscribe(
-          (resp: any) => {
+          () => {
             this.notificationService.success(
               'El usuario seleccionado ha sido Eliminado',
             );
@@ -136,7 +132,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
       }))
       .subscribe();
   }
-  loadUserPage(direction = this.sort.direction) {
+  loadUserPage() {
     this.router.navigated = false;
     // tslint:disable-next-line: max-line-length
     this.router.navigate(['/users'],

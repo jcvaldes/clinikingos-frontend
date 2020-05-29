@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ProgressComponent } from './progress/progress.component';
-import { Graficas1Component } from './graficas1/graficas1.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
-import { PromesasComponent } from './promesas/promesas.component';
-import { RxjsComponent } from './rxjs/rxjs.component';
 import { VerifyTokenGuard } from '../services/guards/verify-token.guard';
 import { LoginGuard } from './../services/guards/login.guard';
 import { SearchComponent } from './search/search.component';
@@ -18,16 +14,6 @@ const routes: Routes = [
     canActivate: [VerifyTokenGuard],
     data: { titulo: 'Dashboard'}
   },
-  // {
-  //   path: 'categories',
-  //   component: CategoriesComponent,
-  //   canActivate: [VerifyTokenGuard],
-  //   data: { titulo: 'Categorías' }
-  // },
-  { path: 'progress', component: ProgressComponent, data: { titulo: 'ProgressBar'}},
-  { path: 'graficas1', component: Graficas1Component, data: { titulo: 'Graficas'} },
-  { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas'} },
-  { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs'} },
   {
     path: 'account-settings',
     component: AccountSettingsComponent,
@@ -60,16 +46,6 @@ const routes: Routes = [
   {
     path: 'roles',
     loadChildren: () => import('./admin/roles/roles.module').then(m => m.RolesModule),
-    canActivate: [LoginGuard],
-  },
-  {
-    path: 'contracts',
-    loadChildren: () => import('./public/contracts/contracts.module').then(m => m.ContractsModule),
-    canActivate: [LoginGuard],
-  },
-  {
-    path: 'subscriptions',
-    loadChildren: () => import('./admin/subscriptions/subscriptions.module').then(m => m.SubscriptionsModule),
     canActivate: [LoginGuard],
   },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

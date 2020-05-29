@@ -25,9 +25,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {}
   save(user: User) {
     this.user.fullname = user.fullname;
-    if (!this.user.google) {
-      this.user.email = user.email;
-    }
+    this.user.email = user.email;
     this._userService.updateUser(this.user).subscribe();
   }
   selectImage(file: File) {
