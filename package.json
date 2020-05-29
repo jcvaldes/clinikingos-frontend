@@ -3,22 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run start:mongo && concurrently -r \"npm run start:client\" \"npm run start:api\"",
-    "build": "ng build",
-    "build:prod": "ng build --prod --build-optimizer=true",
-    "build:qa": "ng build --configuration qa --build-optimizer=true",
-    "docker:up": "docker-compose up -d",
-    "docker:build:prod": "npm run build:prod && docker-compose up -d && docker-compose logs -f letsencrypt",
-    "docker:down:prod": "docker-compose -f ../docker-compose.yml stop && docker-compose -f ../docker-compose.yml rm -v && docker rmi node nginx tudoclegal_admin-prod tudoclegal_nodeapp-prod tudoclegal_nginx-proxy-prod tudoclegal_letsencrypt-prod",
-    "docker:build:qa": "npm run build:qa && docker-compose -f ../docker-compose-qa.yml up -d",
-    "docker:down:qa": "docker-compose -f ../docker-compose-qa.yml stop && docker-compose -f ../docker-compose-qa.yml rm -v && docker rmi tudoclegal_web-qa tudoclegal_nodeapp-qa tudoclegal_home-qa",
-    "test": "ng test",
-    "dist": "concurrently -r \"npm run start:api\" \"node ./node_modules/http-server/bin/http-server ./dist -o -p 4200 --cors\"",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "start:server": "cross-env NODE_ENV=development cross-env DEBUG=tudoclegal* ../server/node_modules/nodemon/bin/nodemon.js --exec babel-node ../server/app.js",
-    "start:client": "ng serve",
-    "start:mongo": "docker start mongo"
+    "start": "node server.js",
+    "postinstall": "ng build --output-path angularapp --aot --prod"
+  },
+  "engines": {
+    "node": "v10.16.3",
+    "npm": "6.9.0"
   },
   "private": true,
   "dependencies": {
